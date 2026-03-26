@@ -4,6 +4,13 @@
 
 格式基于 [Keep a Changelog](https://keepachangelog.com/)，版本号遵循语义化版本。
 
+## [2.1.0] - 2026-03-27
+
+### Added
+- `ARCHITECTURE_VISION.md`：架构愿景文档（大白话版），解释版本无关架构的思路和演进路径
+- 对比 ERPNext / SAP / Salesforce 的设计模式，说明为什么要把业务知识从代码中分离
+- 三步演进路线：方法拆小 → 规则外置 → 事件驱动
+
 ## [2.0.0] - 2026-03-27
 
 ### 全新重构
