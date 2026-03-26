@@ -1,0 +1,47 @@
+# Odoo 项目 Pre-commit 配置
+# 安装：pip install pre-commit && pre-commit install
+# 手动运行：pre-commit run --all-files
+
+repos:
+  # ── Python 代码质量 ──
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.6
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+      - id: ruff-format
+
+  # ── Odoo 专用检查 ──
+  - repo: https://github.com/OCA/pylint-odoo
+    rev: "9.2.1"
+    hooks:
+      - id: pylint_odoo
+        args:
+          - --disable=all
+          - --enable=odoolint
+          # 按需启用具体检查项，以下是最重要的：
+          # manifest 相关
+          - -e manifest-required-key       # manifest 缺少必填字段
+          - -e manifest-deprecated-key     # manifest 使用已废弃字段
+          # 安全相关
+          - -e missing-readme              # 缺少 README
+          # ORM 相关
+          - -e method-required-super       # create/write/unlink 未调用 super
+          - -e translation-required        # 用户可见字符串未包 _()
+          # SQL 注入风险
+          - -e sql-injection               # SQL 注入风险
+
+  # ── 基础文件检查 ──
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-xml
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=500]
+      - id: no-commit-to-branch
+        args: [--branch, main]
